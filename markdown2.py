@@ -194,6 +194,8 @@ class Markdown(object):
     # (see _ProcessListItems() for details):
     list_level = 0
 
+    CAPTION_COUNT = 1
+
     _ws_only_line_re = re.compile(r"^[ \t]+$", re.M)
 
     def __init__(self, html4tags=False, tab_width=4, safe_mode=None,
@@ -1127,13 +1129,17 @@ class Markdown(object):
                             _xml_escape_attr(title)
                                 .replace('*', self._escape_table['*'])
                                 .replace('_', self._escape_table['_']))
+                        caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
+                        self.CAPTION_COUNT+=1
                     else:
                         title_str = ''
+                        caption = ''
                     if is_img:
-                        result = '<img src="%s" alt="%s"%s%s' \
+                        result = '<img src="%s" alt="%s"%s%s%s' \
                             % (url.replace('"', '&quot;'),
                                _xml_escape_attr(link_text),
-                               title_str, self.empty_element_suffix)
+                               title_str, self.empty_element_suffix,
+                               caption)
                         if "smarty-pants" in self.extras:
                             result = result.replace('"', self._escape_table['"'])
                         curr_pos = start_idx + len(result)
@@ -1177,13 +1183,17 @@ class Markdown(object):
                                 .replace('*', self._escape_table['*']) \
                                 .replace('_', self._escape_table['_'])
                             title_str = ' title="%s"' % title
+                            caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
+                            self.CAPTION_COUNT+=1
                         else:
                             title_str = ''
+                            caption = ''
                         if is_img:
-                            result = '<img src="%s" alt="%s"%s%s' \
+                            result = '<img src="%s" alt="%s"%s%s%s' \
                                 % (url.replace('"', '&quot;'),
                                    link_text.replace('"', '&quot;'),
-                                   title_str, self.empty_element_suffix)
+                                   title_str, self.empty_element_suffix,
+                                   caption)
                             if "smarty-pants" in self.extras:
                                 result = result.replace('"', self._escape_table['"'])
                             curr_pos = start_idx + len(result)
