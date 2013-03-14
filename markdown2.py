@@ -1129,12 +1129,15 @@ class Markdown(object):
                             _xml_escape_attr(title)
                                 .replace('*', self._escape_table['*'])
                                 .replace('_', self._escape_table['_']))
-                        caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
-                        self.CAPTION_COUNT+=1
                     else:
                         title_str = ''
                         caption = ''
                     if is_img:
+                        if title:
+                            caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
+                            self.CAPTION_COUNT+=1
+                        else:
+                            caption = ""
                         result = '<img src="%s" alt="%s"%s%s%s' \
                             % (url.replace('"', '&quot;'),
                                _xml_escape_attr(link_text),
@@ -1183,12 +1186,15 @@ class Markdown(object):
                                 .replace('*', self._escape_table['*']) \
                                 .replace('_', self._escape_table['_'])
                             title_str = ' title="%s"' % title
-                            caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
-                            self.CAPTION_COUNT+=1
                         else:
                             title_str = ''
                             caption = ''
                         if is_img:
+                            if title:
+                                caption = """<div class="wp-caption aligncenter">\n\t<p class="wp-caption-text">Figure %d. %s</p>\n</div>""" % (self.CAPTION_COUNT, title)
+                                self.CAPTION_COUNT+=1
+                            else:
+                                caption = ""
                             result = '<img src="%s" alt="%s"%s%s%s' \
                                 % (url.replace('"', '&quot;'),
                                    link_text.replace('"', '&quot;'),
