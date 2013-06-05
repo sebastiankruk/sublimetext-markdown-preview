@@ -341,6 +341,8 @@ class Markdown(object):
 
         text += "\n"
 
+        # Adding extra processing
+
         rv = UnicodeWithAttrs(text)
         if "toc" in self.extras:
             rv._toc = self._toc
@@ -353,6 +355,15 @@ class Markdown(object):
         desired. This is called before unescaping of special chars and
         unhashing of raw HTML spans.
         """
+        import extensions
+
+        extensions.extract_figure_ids(text) # we just extract information don't care about 
+
+        text = extensions.CAPTURE_IMAGE.sub(extensions.process_match, text)
+        text = extensions.CAPTURE_REF_IMAGE_ID.sub(extensions.fix_figure_references, text)
+        text = extensions.CAPTURE_ANY_IMAGE_ID.sub(extensions.fix_any_figure_references, text)
+        text = extensions.CAPTURE_EMPTY_HREFS.sub(extensions.fix_empty_hrefs, text)
+
         return text
 
     def preprocess(self, text):
