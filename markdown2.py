@@ -360,7 +360,7 @@ class Markdown(object):
         conv = MarkdownExtensions()
         text = conv.process(text)
 
-        return "7:" + str(conv) + ":" + text
+        return text
 
     def preprocess(self, text):
         """A hook for subclasses to do some preprocessing of the Markdown, if
