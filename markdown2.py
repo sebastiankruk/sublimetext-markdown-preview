@@ -355,16 +355,12 @@ class Markdown(object):
         desired. This is called before unescaping of special chars and
         unhashing of raw HTML spans.
         """
-        import extensions
+        from extensions import MarkdownExtensions
 
-        extensions.extract_figure_ids(text) # we just extract information don't care about 
+        conv = MarkdownExtensions()
+        text = conv.process(text)
 
-        text = extensions.CAPTURE_IMAGE.sub(extensions.process_match, text)
-        text = extensions.CAPTURE_REF_IMAGE_ID.sub(extensions.fix_figure_references, text)
-        text = extensions.CAPTURE_ANY_IMAGE_ID.sub(extensions.fix_any_figure_references, text)
-        text = extensions.CAPTURE_EMPTY_HREFS.sub(extensions.fix_empty_hrefs, text)
-
-        return text
+        return "7:" + str(conv) + ":" + text
 
     def preprocess(self, text):
         """A hook for subclasses to do some preprocessing of the Markdown, if
