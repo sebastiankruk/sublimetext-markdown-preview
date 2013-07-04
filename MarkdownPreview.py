@@ -188,9 +188,9 @@ class MarkdownPreviewCommand(sublime_plugin.TextCommand):
         else:
             # convert the markdown
             if settings.get("enable_mathjax") is True or settings.get("enable_highlight") is True:
-                markdown_html = markdown2.markdown(markdown, extras=['footnotes', 'toc', 'fenced-code-blocks', 'cuddled-lists', 'code-friendly'])
+                markdown_html = markdown2.markdown(markdown, extras=['footnotes', 'toc', 'fenced-code-blocks', 'cuddled-lists', 'code-friendly', 'wiki-tables'])
             else:
-                markdown_html = markdown2.markdown(markdown, extras=['footnotes', 'toc', 'fenced-code-blocks', 'cuddled-lists'])
+                markdown_html = markdown2.markdown(markdown, extras=['footnotes', 'toc', 'fenced-code-blocks', 'cuddled-lists', 'wiki-tables'])
             toc_html = markdown_html.toc_html
             if toc_html:
                 toc_markers = ['[toc]', '[TOC]', '<!--TOC-->']

@@ -867,11 +867,11 @@ class Markdown(object):
             row = [c.strip() for c in re.split(r'(?<!\\)\|\|', line)]
             rows.append(row)
         #pprint(rows)
-        hlines = ['<table>', '<tbody>']
+        hlines = ['<table border="1">', '<tbody>']
         for row in rows:
             hrow = ['<tr>']
             for cell in row:
-                hrow.append('<td>')
+                hrow.append('<td style="padding: 0 0.2em">')
                 hrow.append(self._run_span_gamut(cell))
                 hrow.append('</td>')
             hrow.append('</tr>')
